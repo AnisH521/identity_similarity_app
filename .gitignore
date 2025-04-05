@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment folders
+venv/
+env/
+.venv/
+.env/
+idsimenv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Hidden system files
+.DS_Store
+Thumbs.db
+
+# VSCode settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# Logs and runtime files
+*.log
+
+# Python egg metadata
+*.egg-info/
+dist/
+build/
+
+# Model checkpoints and cache
+*.ckpt
+*.pth
+*.pt
+*.bin
+*.h5
+
+# Hugging Face cache
+~/.cache/huggingface/
+
+# Kaggle notebook/input/output
+/input/
+/output/
+working/
+
+# Environment variable files
+.env
+

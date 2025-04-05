@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+face_recognition
+Pillow
+git+https://github.com/huggingface/transformers
+qwen-vl-utils
+accelerate
+python-multipart
