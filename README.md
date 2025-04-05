@@ -3,7 +3,7 @@
 This project provides a system to compare two Aadhaar card (front faced) images based on both **face similarity** and **textual similarity** (Name and Date of Birth). It uses `face_recognition` for face comparison and the `Qwen2-VL` multi-modal LLM model for extracting text information directly from images.
 ---
 ## Workflow
-![workflow](workflow\workflow_doc_similarity.png)
+![workflow](workflow/workflow_doc_similarity.png)
 ---
 ## Features
 
