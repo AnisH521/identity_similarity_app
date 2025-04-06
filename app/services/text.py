@@ -4,35 +4,45 @@ from difflib import SequenceMatcher
 from app.core.logger import logger
 from typing import List, Dict, Union
 
-def extract_name_dob(text_list: List[str]) -> List[Dict[str, Union[str, None]]]:
+def extract_name_dob(text_list: List[str]) -> List[dict]:
     """
-    Extracts structured data containing name and date of birth from a list of strings.
+    Converts a markdown-wrapped string containing either a single dictionary or a list of two dictionaries
+    into a list with two dictionaries.
+
+    If a single dictionary is detected, it duplicates it.
+    If two dictionaries are already present, it returns as is.
 
     Args:
-        text_list (List[str]): A list of strings that may contain a markdown-formatted Python dictionary or list.
+        text_list (List[str]): List containing a single markdown-wrapped string.
 
     Returns:
-        List[Dict[str, Union[str, None]]]: A list of dictionaries with extracted 'name' and 'dob' values.
+        List[dict]: List of two dictionaries.
     """
-    # Join the list into a single string
+    if not text_list:
+        return []
+
     text = " ".join(text_list)
-    
-    # Attempt to extract the content within the ```python ... ``` code block
+
+    # Extract content between the markdown code block
     match = re.search(r"```python\n(.*?)\n```", text, re.DOTALL)
-    if match:
-        text = match.group(1).strip()
+    if not match:
+        return []
 
     try:
-        # Safely evaluate the Python literal expression
-        extracted_data = ast.literal_eval(text)
-        if isinstance(extracted_data, list):
-            return extracted_data
-        else:
-            logger.warning("Parsed data is not a list.")
-            return []
-    except (SyntaxError, ValueError) as e:
-        logger.error(f"Error parsing data: {e}")
+        parsed = ast.literal_eval(match.group(1).strip())
+
+        if isinstance(parsed, dict):
+            # Duplicate single dictionary
+            return [parsed.copy(), parsed.copy()]
+
+        elif isinstance(parsed, list) and len(parsed) == 2:
+            return parsed
+
+    except Exception as e:
+        print(f"Error parsing input: {e}")
         return []
+
+    return []
 
 def text_similarity(data_list: List[Dict[str, Union[str, None]]]) -> float:
     """

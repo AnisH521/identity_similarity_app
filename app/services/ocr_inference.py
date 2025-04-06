@@ -32,7 +32,8 @@ def extract_name_dob_with_qwen(image_paths: List[str]) -> List[Dict[str, str]]:
         }
     ]
 
-    output_text = ["```python\n[\n    {'image': 'aadhar_card_1.jpg', 'name': 'John Loyal', 'dob': '01-01-1995'},\n    {'image': 'aadhar_card_2.jpg', 'name': 'Dhruva', 'dob': '02-03-1993'}\n]\n```"]
+    # output_text = ["```python\n[\n    {'image': 'aadhar_card_1.jpg', 'name': 'John Loyal', 'dob': '01-01-1995'},\n    {'image': 'aadhar_card_2.jpg', 'name': 'Dhruva', 'dob': '02-03-1993'}\n]\n```"]
+    output_text = ["```python\n{'image': 'aadharcard.jpg', 'name': 'John Loyal', 'dob': '01-01-1995'}\n```"]
 
     try:
         return output_text
