@@ -1,11 +1,12 @@
 from app.core.logger import logger
+from app.constants.weights import FACE_WEIGHT, TEXT_WEIGHT
 from typing import Union
 
 def calculate_final_score(
     face_score: Union[float, int],
     text_score: Union[float, int],
-    face_weight: float = 0.6,
-    text_weight: float = 0.4
+    face_weight: float = FACE_WEIGHT,
+    text_weight: float = TEXT_WEIGHT
 ) -> float:
     """
     Calculates the final weighted score from face and text similarity scores.
