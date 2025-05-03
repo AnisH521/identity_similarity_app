@@ -1,8 +1,8 @@
-fastapi
-uvicorn
-face_recognition
-Pillow
-python-multipart
-python-dotenv
-google
-google.genai
+fastapi==0.115.12
+uvicorn==0.34.2
+face_recognition==1.3.0
+Pillow==10.4.0
+python-multipart==0.0.20
+python-dotenv==1.1.0
+google==3.0.0
+google.genai==1.13.0

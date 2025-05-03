@@ -1,10 +1,11 @@
 # Aadhaar Document Similarity Scoring System
 
-This project provides a system to compare two Aadhaar card (front faced) images based on both **face similarity** and **textual similarity** (Name and Date of Birth). It uses `face_recognition` for face comparison and the `Qwen2-VL` multi-modal LLM model for extracting text information directly from images.
----
+## This project provides a system to compare two Aadhaar card (front faced) images based on both **face similarity** and **textual similarity** (Name and Date of Birth). It uses `face_recognition` for face comparison and the `Qwen2-VL` multi-modal LLM model for extracting text information directly from images.
+
 ## Workflow
-![workflow](workflow/workflow_doc_similarity.png)
----
+
+## ![workflow](workflow/workflow_doc_similarity.png)
+
 ## Features
 
 - Face detection and embedding-based similarity
@@ -13,7 +14,9 @@ This project provides a system to compare two Aadhaar card (front faced) images 
 - Weighted final score combining face and text
 - Jupyter notebook-based analysis and pipeline
 - Designed for extensibility and API integration (FastAPI-ready)
+
 ---
+
 ## Tech Stack
 
 - Python 3.10+
@@ -22,7 +25,9 @@ This project provides a system to compare two Aadhaar card (front faced) images 
 - Qwen/Qwen2-VL-2B-Instruct
 - Matplotlib (for image visualization)
 - Difflib, Regex, AST (for text parsing & comparison)
+
 ---
+
 ## Project Structure
 
 ```
@@ -30,33 +35,37 @@ identity-similarity/
 ├── analysis/
 ├── app/
 │   ├── __init__.py
-│   ├── main.py 
-│   ├── Dockerfile              
+│   ├── main.py
+│   ├── Dockerfile
 │   ├── api/
 │   │   ├── __init__.py
-│   │   └── routes.py        
+│   │   └── routes.py
 │   ├── core/
 │   │   ├── __init__.py
-│   │   └── logger.py         
+│   │   └── logger.py
 │   ├── services/
 │   │   ├── __init__.py
-│   │   ├── face.py           
-│   │   ├── text.py           
-│   │   └── score.py          
+│   │   ├── face.py
+│   │   ├── text.py
+│   │   └── score.py
 │   └── models/
 │       ├── __init__.py
-│       └── schemas.py        
+│       └── schemas.py
 ├── requirements.txt
 └── README.md
 ```
+
 ## Installation
 
 #### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/yourusername/identity-similarity.git
 cd identity-similarity
 ```
+
 #### 2. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -69,10 +78,18 @@ Start the API server:
 uvicorn app.main:app --reload
 ```
 
-using Docker
+#### Docker Options
+
+Built the image
 
 ```bash
-docker run -p 8000:8000 'name-of-docker-image'
+docker build -t name-of-docker-image .
+```
+
+Run the Container
+
+```bash
+docker run -p 8000:8000 name-of-docker-image
 ```
 
 The API will be available at http://localhost:8000, and the interactive API documentation at http://localhost:8000/docs.
@@ -164,5 +181,3 @@ print(response.json())
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [face_recognition](https://github.com/ageitgey/face_recognition)
 - [Qwen2-VL](https://huggingface.co/Qwen/Qwen2-VL-7B-Instruct)
-
-
