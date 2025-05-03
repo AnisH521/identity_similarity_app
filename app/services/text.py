@@ -1,50 +1,10 @@
 import re
 import ast
+import json
 from difflib import SequenceMatcher
 from app.core.logger import logger
-from typing import List, Dict, Union
 
-def extract_name_dob(text_list: List[str]) -> List[dict]:
-    """
-    Converts a markdown-wrapped string containing either a single dictionary or a list of two dictionaries
-    into a list with two dictionaries.
-
-    If a single dictionary is detected, it duplicates it.
-    If two dictionaries are already present, it returns as is.
-
-    Args:
-        text_list (List[str]): List containing a single markdown-wrapped string.
-
-    Returns:
-        List[dict]: List of two dictionaries.
-    """
-    if not text_list:
-        return []
-
-    text = " ".join(text_list)
-
-    # Extract content between the markdown code block
-    match = re.search(r"```python\n(.*?)\n```", text, re.DOTALL)
-    if not match:
-        return []
-
-    try:
-        parsed = ast.literal_eval(match.group(1).strip())
-
-        if isinstance(parsed, dict):
-            # Duplicate single dictionary
-            return [parsed.copy(), parsed.copy()]
-
-        elif isinstance(parsed, list) and len(parsed) == 2:
-            return parsed
-
-    except Exception as e:
-        print(f"Error parsing input: {e}")
-        return []
-
-    return []
-
-def text_similarity(data_list: List[Dict[str, Union[str, None]]]) -> float:
+def text_similarity(data_list: str) -> float:
     """
     Computes similarity score between two data dictionaries containing 'name' and 'dob'.
 
@@ -55,11 +15,13 @@ def text_similarity(data_list: List[Dict[str, Union[str, None]]]) -> float:
         float: A score between 0.0 and 1.0 indicating the average similarity of names and DOBs.
     """
     try:
-        if not isinstance(data_list, list) or len(data_list) != 2:
+        data = json.loads(data_list)
+        if not isinstance(data, list) or len(data) != 2:
             raise ValueError("Expected a list of exactly 2 dictionaries")
 
-        data1, data2 = data_list
-
+        data1 = data[0]
+        data2 = data[1]
+        
         name1 = data1.get("name", "")
         dob1 = data1.get("dob", "")
         name2 = data2.get("name", "")

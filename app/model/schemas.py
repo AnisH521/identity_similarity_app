@@ -1,5 +1,4 @@
 from pydantic import BaseModel
-from typing import Dict, List, Union
 
 class SimilarityResponse(BaseModel):
     face_score: float
@@ -7,7 +6,7 @@ class SimilarityResponse(BaseModel):
     overall_score: float
 
 class TextExtractionResponse(BaseModel):
-    extracted_text: List[Dict[str, Union[str, None]]]
+    extracted_text: str
 
 class FaceSimilarityResponse(BaseModel):
     similarity_score: float

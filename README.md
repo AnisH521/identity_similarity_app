@@ -30,7 +30,8 @@ identity-similarity/
 ├── analysis/
 ├── app/
 │   ├── __init__.py
-│   ├── main.py               
+│   ├── main.py 
+│   ├── Dockerfile              
 │   ├── api/
 │   │   ├── __init__.py
 │   │   └── routes.py        
@@ -66,6 +67,12 @@ Start the API server:
 
 ```bash
 uvicorn app.main:app --reload
+```
+
+using Docker
+
+```bash
+docker run -p 8000:8000 'name-of-docker-image'
 ```
 
 The API will be available at http://localhost:8000, and the interactive API documentation at http://localhost:8000/docs.

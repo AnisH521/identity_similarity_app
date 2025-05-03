@@ -1,42 +1,46 @@
-from transformers import Qwen2VLForConditionalGeneration, AutoTokenizer, AutoProcessor
-from qwen_vl_utils import process_vision_info
-from typing import List, Dict
+import os
 
+# Store Gemini 2.0 Flash API Key
+from google import genai
+from google.genai import types
 
-def extract_name_dob_with_qwen(image_paths: List[str]) -> List[Dict[str, str]]:
-    """
-    Runs inference on given image paths and extracts name and DOB using Qwen2-VL.
+def extract_img_info(
+    image1_bytes: bytes,
+    image1_mime_type: str,
+    image2_bytes: bytes,
+    image2_mime_type: str
+) -> str:
+    client = genai.Client(
+        api_key = os.getenv("GEMINI_API_KEY"),
+    )
 
-    Args:
-        image_paths (List[str]): List of image paths.
+    model = "gemini-2.0-flash"
 
-    Returns:
-        List[Dict[str, str]]: Extracted details in standard format.
-    """
-    messages = [
-        {
-            "role": "user",
-            "content": [
-                {"type": "image", "image": image_paths[0]},
-                {"type": "image", "image": image_paths[1]},
-                {
-                    "type": "text",
-                    "text": (
-                        "Extract only the **name** and **DOB** from each image. "
-                        "Return a Python list where each item is a dictionary in the following format:\n\n"
-                        "{'image': 'image_name.jpg', 'name': 'Full Name', 'dob': 'DD-MM-YYYY'}\n\n"
-                        "Ensure the keys are lowercase and use only this format in the response without any markdown or additional text."
-                    ),
-                },
-            ],
-        }
+    prompt = (
+        "Extract only the **name** and **DOB** from each image. "
+        "Return a Python list where each item is a dictionary in the following format:\n\n"
+        "{'image': 'image_name.jpg', 'name': 'Full Name', 'dob': 'DD-MM-YYYY'}\n\n"
+        "Ensure the keys are lowercase and use only this format in the response without any markdown or additional text."
+    )
+
+    contents = [
+        types.Part(inline_data=types.Blob(mime_type=image1_mime_type, data=image1_bytes)),
+        types.Part(inline_data=types.Blob(mime_type=image2_mime_type, data=image2_bytes)),
+        types.Part(text=prompt)
     ]
-
-    # output_text = ["```python\n[\n    {'image': 'aadhar_card_1.jpg', 'name': 'John Loyal', 'dob': '01-01-1995'},\n    {'image': 'aadhar_card_2.jpg', 'name': 'Dhruva', 'dob': '02-03-1993'}\n]\n```"]
-    output_text = ["```python\n{'image': 'aadharcard.jpg', 'name': 'John Loyal', 'dob': '01-01-1995'}\n```"]
-
-    try:
-        return output_text
-    except Exception as e:
-        print("Parsing error:", e)
-        return []
+    
+    generate_content_config = types.GenerateContentConfig(
+        thinking_config = types.ThinkingConfig(
+            thinking_budget=0,
+        ),
+        response_mime_type="application/json",
+    )
+    
+    output_text = ""
+    for chunk in client.models.generate_content_stream(
+        model=model,
+        contents=contents,
+        config=generate_content_config,
+    ):
+        output_text += chunk.text
+    return output_text
