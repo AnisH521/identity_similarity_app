@@ -36,7 +36,7 @@ identity-similarity/
 ├── app/
 │   ├── __init__.py
 │   ├── main.py
-│   ├── Dockerfile
+│   ├── .env
 │   ├── api/
 │   │   ├── __init__.py
 │   │   └── routes.py
@@ -51,6 +51,7 @@ identity-similarity/
 │   └── models/
 │       ├── __init__.py
 │       └── schemas.py
+├── Dockerfile
 ├── requirements.txt
 └── README.md
 ```
@@ -60,7 +61,7 @@ identity-similarity/
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/identity-similarity.git
+git clone https://github.com/AnisH521/identity_similarity_app.git
 cd identity-similarity
 ```
 
@@ -68,6 +69,13 @@ cd identity-similarity
 
 ```bash
 pip install -r requirements.txt
+```
+
+Create a `.env` file within `app/.env` and put you API Key within it
+
+```bash
+# GEMINI_API_KEY
+GEMINI_API_KEY=************************
 ```
 
 #### Running the Application
@@ -120,55 +128,13 @@ POST /api/text-extraction
 
 Extract textual information from identity document images.
 
-## Usage Examples
-
-### Using cURL
-
-```bash
-curl -X POST "http://localhost:8000/api/compare" \
-  -H "accept: application/json" \
-  -H "Content-Type: multipart/form-data" \
-  -F "image1=@/path/to/id1.jpg" \
-  -F "image2=@/path/to/id2.jpg"
-```
-
-### Using Python Requests
-
-```python
-import requests
-
-url = "http://localhost:8000/api/compare"
-
-files = {
-    "image1": open("path/to/id1.jpg", "rb"),
-    "image2": open("path/to/id2.jpg", "rb")
-}
-
-response = requests.post(url, files=files)
-print(response.json())
-```
-
 ## Response Format
 
 ```json
 {
-  "face_score": 0.85,
-  "text_score": 1.0,
-  "overall_score": 0.91,
-  "name_match": true,
-  "dob_match": true,
-  "extracted_text": {
-    "document1": {
-      "name": "John Doe",
-      "dob": "1990-01-01"
-    },
-    "document2": {
-      "name": "John Doe",
-      "dob": "1990-01-01"
-    },
-    "name_match": true,
-    "dob_match": true
-  }
+  "face_score": 0.26,
+  "text_score": 0.12,
+  "overall_score": 0.2
 }
 ```
 
